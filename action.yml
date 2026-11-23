@@ -1,0 +1,16 @@
+name: Floating tags
+description: Move the vX.Y.x and vX.x.x tags to a published vX.Y.Z release when it is the latest release of its line.
+
+inputs:
+  release:
+    description: Tag of the published release, of the form vX.Y.Z
+    required: false
+    default: ${{ github.event.release.tag_name }}
+
+runs:
+  using: composite
+  steps:
+    - run: ${{ github.action_path }}/move-floating-tags.sh "$RELEASE"
+      shell: bash
+      env:
+        RELEASE: ${{ inputs.release }}
